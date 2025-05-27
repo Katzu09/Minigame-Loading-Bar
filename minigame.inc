@@ -10,6 +10,14 @@
 #endif
 #define _minigame_included
 
+#if !defined _samp_included
+	#tryinclude <a_samp>
+	#if !defined _samp_included
+		#error failed to find file a_samp.inc. Please check the 'include' path on your server.
+	#endif
+#endif
+
+#define PROGRESS_BAR_UPDATE_INTERVAL 50
 #define KEY_PRESS_COOLDOWN 650
 #define BAR_TOTAL_WIDTH 100
 #define TARGET_WIDTH 7.0  
@@ -108,7 +116,7 @@ stock StartPlayerMinigame(playerid, hittowin = 5, Float:speedbar = 0.3, const su
     if(g_playerMinigame[playerid][loadingTimer]) {
         KillTimer(g_playerMinigame[playerid][loadingTimer]);
     }
-    g_playerMinigame[playerid][loadingTimer] = SetTimerEx("OnLoadingMnUpdate", 50, true, "i", playerid);
+    g_playerMinigame[playerid][loadingTimer] = SetTimerEx("OnLoadingMnUpdate", PROGRESS_BAR_UPDATE_INTERVAL, true, "i", playerid);
     
     g_mainProgres[playerid] = CreatePlayerTextDraw(playerid, 260.000, 340.000, "LD_BUM:blkdot");
     PlayerTextDrawTextSize(playerid, g_mainProgres[playerid], 100.000, 20.000);
